@@ -1,4 +1,4 @@
-import { existsSync, readdirSync, writeFileSync, readFileSync } from 'fs';
+import { existsSync } from 'fs';
 import mkdirp from 'mkdirp';
 import bodyParser from 'body-parser';
 import express from 'express';
@@ -28,14 +28,14 @@ const onMessage = (data) => {
   const hasLib = existsSync(`./cache/${version}/react-native`);
   let response = {
     fetched: false,
-    cache: false
+    cache: false,
   };
 
   if (!hasLib) {
     fetchRepository(version);
-    response.fetched = true;
+    response = Object.assign({}, response, { fetched: true });
   } else {
-    response.cache = true;
+    response = Object.assign({}, response, { cache: true });
   }
 
   send(response)
